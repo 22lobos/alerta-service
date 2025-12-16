@@ -1,8 +1,6 @@
 package com.example.alerta_service.controller;
 
-import com.example.alerta_service.dto.AlertaCreateRequest;
-import com.example.alerta_service.dto.AlertaResponse;
-import com.example.alerta_service.dto.AlertaUpdateRequest;
+import com.example.alerta_service.dto.*;
 import com.example.alerta_service.service.AlertaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,65 +11,42 @@ import java.util.List;
 @RequestMapping("/api/alertas")
 public class AlertaController {
 
-    private final AlertaService alertaService;
+    private final AlertaService service;
 
-    public AlertaController(AlertaService alertaService) {
-        this.alertaService = alertaService;
+    public AlertaController(AlertaService service) {
+        this.service = service;
     }
 
-    // =========================
-    // PING (PRUEBA DE VIDA)
-    // =========================
+    // PRUEBA RÁPIDA (si esto no responde, el controller no está cargado)
     @GetMapping("/ping")
     public String ping() {
-        return "alerta-service OK";
+        return "OK alerta-service";
     }
 
-    // =========================
-    // CREAR ALERTA
-    // =========================
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AlertaResponse crearAlerta(@RequestBody AlertaCreateRequest request) {
-        return alertaService.crear(request);
+    public AlertaResponse crear(@RequestBody AlertaCreateRequest req) {
+        return service.crear(req);
     }
 
-    // =========================
-    // ACTUALIZAR ALERTA
-    // =========================
     @PutMapping("/{id}")
-    public AlertaResponse actualizarAlerta(
-            @PathVariable Long id,
-            @RequestBody AlertaUpdateRequest request
-    ) {
-        return alertaService.actualizar(id, request);
+    public AlertaResponse actualizar(@PathVariable Long id, @RequestBody AlertaUpdateRequest req) {
+        return service.actualizar(id, req);
     }
 
-    // =========================
-    // ELIMINAR ALERTA
-    // =========================
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminarAlerta(
-            @PathVariable Long id,
-            @RequestParam Long idUsuario
-    ) {
-        alertaService.eliminar(id, idUsuario);
+    public void eliminar(@PathVariable Long id, @RequestParam Long idUsuario) {
+        service.eliminar(id, idUsuario);
     }
 
-    // =========================
-    // OBTENER ALERTA POR ID
-    // =========================
     @GetMapping("/{id}")
-    public AlertaResponse obtenerAlerta(@PathVariable Long id) {
-        return alertaService.obtener(id);
+    public AlertaResponse obtener(@PathVariable Long id) {
+        return service.obtener(id);
     }
 
-    // =========================
-    // LISTAR ALERTAS POR USUARIO
-    // =========================
     @GetMapping("/usuario/{idUsuario}")
-    public List<AlertaResponse> listarPorUsuario(@PathVariable Long idUsuario) {
-        return alertaService.listarPorUsuario(idUsuario);
+    public List<AlertaResponse> listar(@PathVariable Long idUsuario) {
+        return service.listarPorUsuario(idUsuario);
     }
 }
