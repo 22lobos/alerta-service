@@ -1,9 +1,7 @@
 package com.example.alerta_service.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Getter
 public class ApiException extends RuntimeException {
 
     private final HttpStatus status;
@@ -11,5 +9,9 @@ public class ApiException extends RuntimeException {
     public ApiException(HttpStatus status, String message) {
         super(message);
         this.status = status;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
     }
 }
