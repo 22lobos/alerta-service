@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 public class AlertaUpdateRequest {
 
+    @SuppressWarnings("deprecation")
     @NotNull
     private Long idUsuario;
 
